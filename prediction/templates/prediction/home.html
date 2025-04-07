@@ -1,0 +1,51 @@
+{% extends "prediction/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="fw-bold text-primary"><i class="fas fa-lungs"></i> Asthma Prediction System</h1>
+            <p class="lead text-muted">Log your symptoms, get real-time asthma risk analysis, and take control of your health.</p>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <!-- Log Symptoms Card -->
+        <div class="col-md-4">
+            <div class="card text-center shadow-lg p-4 border-0">
+                <i class="fas fa-notes-medical fa-4x text-primary"></i>
+                <h4 class="mt-3">Log Symptoms</h4>
+                <p>Track your symptoms to receive an asthma risk prediction.</p>
+                <a href="{% url 'symptom_form' %}" class="btn btn-primary">Start Now</a>
+            </div>
+        </div>
+
+        <!-- View Predictions Card -->
+        <div class="col-md-4">
+            <div class="card text-center shadow-lg p-4 border-0">
+                <i class="fas fa-chart-line fa-4x text-success"></i>
+                <h4 class="mt-3">View Predictions</h4>
+                <p>Analyze past predictions and monitor your asthma trends.</p>
+                <a href="{% url 'predictor' %}"  class="btn btn-success">Check Insights</a>
+            </div>
+        </div>
+
+        <!-- Records -->
+        <div class="col-md-4">
+            <div class="card text-center shadow-lg p-4 border-0">
+                <i class="fas fa-database fa-4x text-danger"></i>
+                <h4 class="mt-3">Records</h4>
+                <p>Retrieve symptom records from database to monitor your asthma.</p>
+                <a href="{% url 'records' %}" class="btn btn-danger">Check Records</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="text-center mt-5">
+        <h3 class="fw-bold"><i class="fas fa-exclamation-circle text-warning"></i> Stay Informed</h3>
+        <p>138755</p>
+        
+    </div>
+</div>
+{% endblock %}

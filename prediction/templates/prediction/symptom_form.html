@@ -1,0 +1,116 @@
+{% extends "prediction/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center text-primary"><i class="fas fa-stethoscope"></i> Asthma Symptom Assessment</h2>
+
+        <!-- Display Django Success Messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" class="mt-4" onsubmit="showLoading(event)">
+            {% csrf_token %}
+
+            <!-- Age Dropdown -->
+            <div class="mb-3">
+                <label for="age" class="form-label">Age</label>
+                <input type="number" name="age" id="age" class="form-control" min="0" required>
+            </div>
+
+            <!-- Vital Signs -->
+            <div class="mb-3">
+                <label class="form-label"><i class="fas fa-thermometer-half"></i> Temperature (°C)</label>
+                <input type="number" name="temperature" class="form-control" step="0.1" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label"><i class="fas fa-lungs"></i> Respiratory Rate (breaths/min)</label>
+                <input type="number" name="respiratory_rate" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label"><i class="fas fa-heartbeat"></i> Heart Rate (bpm)</label>
+                <input type="number" name="heart_rate" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label"><i class="fas fa-tint"></i> Oxygen Saturation (%)</label>
+                <input type="number" name="oxygen_saturation" class="form-control" required>
+            </div>
+
+            <!-- Asthma Symptoms Checklist -->
+            <div class="mb-3">
+                <label class="form-label"><i class="fas fa-list"></i> Select Symptoms</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="shortness_of_breath" value="1">
+                    <label class="form-check-label">Shortness of Breath</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="wheezing" value="1">
+                    <label class="form-check-label">Wheezing</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="cough" value="1">
+                    <label class="form-check-label">Coughing</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="chest_tightness" value="1">
+                    <label class="form-check-label">Chest Tightness</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="nighttime_symptoms" value="1">
+                    <label class="form-check-label">Symptoms Worsen at Night</label>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="analyse-btn" class="btn btn-primary btn-sm w-auto py-1 text-white rounded-pill shadow-lg">
+                <i class="fas fa-search"></i> Analyse
+            </button>
+            
+            <!-- Loading Animation -->
+            <div id="loading" class="mt-3 text-center d-none">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Analysing...</span>
+                </div>
+                <p class="mt-2">Analysing...</p>
+            </div>
+        </form>
+
+        <!-- Display Prediction Result -->
+        {% if prediction is not None %}
+            <div class="alert mt-4 text-center {% if prediction == 1 %}alert-danger{% else %}alert-success{% endif %}">
+                <h5>
+                    <i class="fas {% if prediction == 1 %}fa-exclamation-triangle{% else %}fa-check-circle{% endif %}"></i>
+                    Asthma Prediction Result: <strong>{% if prediction == 1 %}At Risk{% else %}Not at Risk{% endif %}</strong>
+                </h5>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Check Atmosphere Button -->
+<div class="mt-4 text-center">
+    <a href="http://127.0.0.1:8000/prediction/prediction/results/" class="w-auto">
+        <button type="button" class="btn btn-info w-auto py-2 text-white rounded-pill shadow-lg">
+            <i class="fas fa-cloud"></i> Check Atmosphere
+        </button>
+    </a>
+</div>
+
+<script>
+function showLoading(event) {
+    event.preventDefault();
+    document.getElementById('analyse-btn').classList.add('d-none');
+    document.getElementById('loading').classList.remove('d-none');
+    setTimeout(() => event.target.submit(), 2000);
+}
+</script>
+
+{% endblock %}

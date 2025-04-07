@@ -1,0 +1,43 @@
+{% extends "prediction/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4 text-center">
+        <h2 class="text-primary"><i class="fas fa-cloud"></i> Atmosphere & Weather Report</h2>
+        <p class="text-muted">Stay informed about the air quality and weather conditions.</p>
+
+        <!-- Air Quality Index (AQI) Display -->
+        {% if aqi is not None %}
+            <div class="alert alert-info mt-4 shadow-sm">
+                <h4><i class="fas fa-smog"></i> Air Quality Index (AQI): <strong>{{ aqi }}</strong></h4>
+                <p class="mb-0">Higher values indicate poorer air quality.</p>
+            </div>
+        {% else %}
+            <div class="alert alert-warning mt-4 shadow-sm">
+                <h4><i class="fas fa-exclamation-triangle"></i> Air Quality Data Unavailable</h4>
+                <p class="mb-0">Please try again later.</p>
+            </div>
+        {% endif %}
+
+        <!-- Weather Information Display -->
+        {% if weather and weather.0 is not None %}
+            <div class="alert alert-info mt-4 shadow-sm">
+                <h4><i class="fas fa-cloud-sun"></i> Temperature: <strong>{{ weather.0 }}°C</strong></h4>
+                <h5><i class="fas fa-cloud-rain"></i> Condition: <strong>{{ weather.1 }}</strong></h5>
+            </div>
+        {% else %}
+            <div class="alert alert-warning mt-4 shadow-sm">
+                <h4><i class="fas fa-exclamation-triangle"></i> Weather Data Unavailable</h4>
+                <p class="mb-0">Please try again later.</p>
+            </div>
+        {% endif %}
+
+        <!-- Back Button -->
+        <div class="mt-4">
+            <a href="{% url 'home' %}" class="btn btn-primary shadow-sm rounded-pill">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
